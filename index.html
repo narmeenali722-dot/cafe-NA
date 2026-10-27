@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NA Cafe — Narmeen Ali</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --brown-dark:#1a0f00;
+  --brown-mid:#3d1f00;
+  --brown-accent:#8B5A00;
+  --gold:#c8860a;
+  --gold-light:#e8a020;
+  --cream:#f5ede0;
+  --white:#fff;
+  --text-light:#d4b896;
+  --shadow:0 8px 32px rgba(0,0,0,0.4);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Lato',sans-serif;background:var(--brown-dark);color:var(--cream);}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--brown-dark);}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px;}
+
+/* ===== NAVBAR ===== */
+nav{position:fixed;top:0;left:0;width:100%;z-index:1000;background:rgba(26,15,0,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,134,10,0.2);transition:.3s;}
+.nav-inner{max-width:1280px;margin:auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:70px;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-icon{width:42px;height:42px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:900;color:var(--brown-dark);font-size:13px;}
+.logo-text{line-height:1.1;}
+.logo-text .name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--white);}
+.logo-text .sub{font-size:11px;color:var(--gold);letter-spacing:2px;}
+.nav-links{display:flex;align-items:center;gap:8px;list-style:none;}
+.nav-links a{text-decoration:none;color:var(--text-light);font-size:14px;letter-spacing:.5px;padding:6px 12px;border-radius:4px;transition:.2s;}
+.nav-links a:hover{color:var(--gold-light);}
+.btn-order{background:var(--gold);color:var(--brown-dark)!important;font-weight:700;padding:9px 20px!important;border-radius:6px;}
+.btn-order:hover{background:var(--gold-light)!important;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.hamburger span{width:24px;height:2px;background:var(--gold);border-radius:2px;transition:.3s;}
+.mobile-menu{display:none;position:fixed;top:70px;left:0;width:100%;background:rgba(26,15,0,0.98);padding:20px 24px;border-bottom:1px solid rgba(200,134,10,0.2);}
+.mobile-menu.open{display:block;}
+.mobile-menu a{display:block;color:var(--text-light);text-decoration:none;padding:12px 0;border-bottom:1px solid rgba(200,134,10,0.1);font-size:15px;}
+.mobile-menu .btn-order-mob{display:inline-block;background:var(--gold);color:var(--brown-dark);font-weight:700;padding:12px 24px;border-radius:6px;margin-top:16px;text-decoration:none;}
+
+/* ===== HERO ===== */
+#home{min-height:100vh;position:relative;display:flex;align-items:center;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,rgba(26,15,0,.95) 0%,rgba(61,31,0,.7) 50%,rgba(26,15,0,.9) 100%);}
+.hero-bg::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=1400&q=80') center/cover no-repeat;z-index:-1;}
+.hero-content{position:relative;z-index:2;max-width:1280px;margin:auto;padding:0 24px;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;padding-top:70px;}
+.hero-badge{display:inline-block;background:rgba(200,134,10,.15);border:1px solid var(--gold);color:var(--gold);font-size:12px;letter-spacing:3px;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:24px;}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,72px);font-weight:900;line-height:1.1;margin-bottom:20px;color:var(--white);}
+.hero-title span{color:var(--gold);}
+.hero-desc{color:var(--text-light);font-size:17px;line-height:1.7;margin-bottom:36px;}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;}
+.btn-primary{background:var(--gold);color:var(--brown-dark);font-weight:700;padding:14px 32px;border-radius:8px;text-decoration:none;font-size:15px;transition:.3s;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);}
+.btn-secondary{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,.4);padding:14px 32px;border-radius:8px;text-decoration:none;font-size:15px;transition:.3s;cursor:pointer;display:inline-flex;align-items:center;gap:8px;}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold);}
+.hero-card{background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(200,134,10,.2);border-radius:20px;padding:40px;text-align:center;}
+.hero-card-img{width:200px;height:200px;border-radius:50%;object-fit:cover;border:4px solid var(--gold);margin:0 auto 20px;}
+.hero-card h3{font-family:'Playfair Display',serif;font-size:28px;color:var(--white);margin-bottom:8px;}
+.hero-card p{color:var(--text-light);}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px;}
+.stat{text-align:center;padding:16px;background:rgba(200,134,10,.08);border-radius:10px;border:1px solid rgba(200,134,10,.15);}
+.stat .num{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--gold);}
+.stat .label{font-size:11px;color:var(--text-light);letter-spacing:1px;text-transform:uppercase;margin-top:4px;}
+
+/* ===== SECTION SHARED ===== */
+section{padding:90px 24px;}
+.sec-inner{max-width:1280px;margin:auto;}
+.sec-header{text-align:center;margin-bottom:60px;}
+.sec-tag{display:inline-flex;align-items:center;gap:8px;color:var(--gold);font-size:13px;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
+.sec-tag::before,.sec-tag::after{content:'';flex:1;height:1px;width:40px;background:var(--gold);}
+.sec-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,48px);font-weight:700;color:var(--white);margin-bottom:16px;}
+.sec-sub{color:var(--text-light);font-size:16px;max-width:500px;margin:auto;line-height:1.7;}
+
+/* ===== ABOUT ===== */
+#about{background:linear-gradient(to bottom,var(--brown-dark),var(--brown-mid));}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.about-img-wrap{position:relative;}
+.about-img-wrap img{width:100%;border-radius:20px;height:420px;object-fit:cover;}
+.about-badge{position:absolute;bottom:-20px;right:-20px;background:var(--gold);color:var(--brown-dark);padding:20px 24px;border-radius:14px;text-align:center;}
+.about-badge .big{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;}
+.about-badge .sm{font-size:11px;font-weight:700;letter-spacing:1px;}
+.about-features{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:32px;}
+.feat-item{display:flex;gap:14px;align-items:flex-start;}
+.feat-icon{width:44px;height:44px;min-width:44px;background:rgba(200,134,10,.12);border:1px solid rgba(200,134,10,.3);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.feat-item h5{font-size:14px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.feat-item p{font-size:13px;color:var(--text-light);}
+.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px;background:var(--brown-dark);border-radius:14px;padding:24px;}
+.astat{text-align:center;}
+.astat .n{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--gold);}
+.astat .l{font-size:12px;color:var(--text-light);letter-spacing:1px;}
+
+/* ===== FEATURED MENU ===== */
+#featured{background:var(--brown-dark);}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:24px;}
+.menu-card{background:rgba(255,255,255,.04);border:1px solid rgba(200,134,10,.15);border-radius:16px;overflow:hidden;transition:.3s;cursor:pointer;}
+.menu-card:hover{transform:translateY(-6px);border-color:var(--gold);box-shadow:0 16px 40px rgba(200,134,10,.2);}
+.menu-card img{width:100%;height:160px;object-fit:cover;}
+.menu-card-body{padding:16px;}
+.menu-card-body h4{font-family:'Playfair Display',serif;font-size:17px;color:var(--white);margin-bottom:6px;}
+.menu-card-body p{font-size:13px;color:var(--text-light);line-height:1.5;margin-bottom:12px;}
+.price-tag{display:inline-block;background:var(--gold);color:var(--brown-dark);font-weight:700;font-size:13px;padding:4px 12px;border-radius:20px;}
+
+
+/* ===== WHY CHOOSE US ===== */
+#why{background:var(--brown-dark);}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:24px;}
+.why-card{background:rgba(255,255,255,.04);border:1px solid rgba(200,134,10,.1);border-radius:16px;padding:32px 24px;text-align:center;transition:.3s;}
+.why-card:hover{background:rgba(200,134,10,.08);border-color:var(--gold);transform:translateY(-4px);}
+.why-icon{width:64px;height:64px;background:rgba(200,134,10,.12);border:1px solid rgba(200,134,10,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 20px;}
+.why-card h4{font-family:'Playfair Display',serif;font-size:18px;color:var(--white);margin-bottom:10px;}
+.why-card p{font-size:14px;color:var(--text-light);line-height:1.6;}
+
+/* ===== FULL MENU ===== */
+#menu{background:linear-gradient(to bottom,var(--brown-dark),var(--brown-mid));}
+.menu-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:40px;}
+.tab-btn{background:transparent;border:1px solid rgba(200,134,10,.3);color:var(--text-light);padding:10px 22px;border-radius:25px;cursor:pointer;font-size:14px;transition:.2s;font-family:'Lato',sans-serif;}
+.tab-btn.active,.tab-btn:hover{background:var(--gold);color:var(--brown-dark);border-color:var(--gold);font-weight:700;}
+.full-menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;}
+.full-menu-item{background:rgba(255,255,255,.04);border:1px solid rgba(200,134,10,.15);border-radius:16px;overflow:hidden;display:flex;gap:0;flex-direction:column;transition:.3s;}
+.full-menu-item:hover{border-color:var(--gold);transform:translateY(-4px);}
+.full-menu-item img{width:100%;height:180px;object-fit:cover;}
+.fmi-body{padding:18px;}
+.fmi-body h4{font-family:'Playfair Display',serif;font-size:18px;color:var(--white);margin-bottom:6px;}
+.fmi-body p{font-size:13px;color:var(--text-light);line-height:1.5;margin-bottom:14px;}
+.fmi-footer{display:flex;justify-content:space-between;align-items:center;}
+.menu-cat-tag{display:none;}
+
+/* ===== GALLERY ===== */
+#gallery{background:var(--brown-dark);}
+.gallery-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:40px;}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.gallery-item{position:relative;overflow:hidden;border-radius:12px;aspect-ratio:1;cursor:pointer;}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:.4s;}
+.gallery-item:hover img{transform:scale(1.08);}
+.gallery-overlay{position:absolute;inset:0;background:rgba(200,134,10,0);display:flex;align-items:center;justify-content:center;transition:.3s;font-size:32px;opacity:0;}
+.gallery-item:hover .gallery-overlay{background:rgba(200,134,10,.25);opacity:1;}
+.gallery-cat{display:none;}
+
+/* ===== REVIEWS ===== */
+#reviews{background:linear-gradient(to bottom,var(--brown-dark),var(--brown-mid));}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;}
+.review-card{background:rgba(255,255,255,.04);border:1px solid rgba(200,134,10,.15);border-radius:16px;padding:28px;}
+.stars{color:var(--gold);font-size:18px;margin-bottom:14px;}
+.review-text{color:var(--text-light);font-size:15px;line-height:1.7;margin-bottom:20px;font-style:italic;}
+.reviewer{display:flex;align-items:center;gap:12px;}
+.reviewer-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);}
+.reviewer-name{font-weight:700;color:var(--white);font-size:14px;}
+.reviewer-sub{font-size:12px;color:var(--text-light);}
+.reviews-tagline{text-align:center;margin-top:50px;padding:30px;background:rgba(200,134,10,.06);border-radius:14px;border:1px solid rgba(200,134,10,.15);}
+.reviews-tagline h3{font-family:'Playfair Display',serif;font-size:26px;color:var(--white);margin-bottom:8px;}
+.reviews-tagline p{color:var(--text-light);}
+
+/* ===== PROMO BANNER ===== */
+.promo-banner{background:linear-gradient(135deg,var(--gold) 0%,#a06800 100%);padding:40px 24px;text-align:center;}
+.promo-banner h2{font-family:'Playfair Display',serif;font-size:clamp(22px,4vw,40px);color:var(--brown-dark);font-weight:900;margin-bottom:6px;}
+.promo-banner p{font-size:16px;color:rgba(26,15,0,.8);margin-bottom:20px;}
+.btn-dark{background:var(--brown-dark);color:var(--gold);font-weight:700;padding:14px 36px;border-radius:8px;text-decoration:none;font-size:15px;transition:.3s;cursor:pointer;border:none;display:inline-block;}
+.btn-dark:hover{background:#000;transform:translateY(-2px);}
+
+/* ===== CONTACT ===== */
+#contact{background:var(--brown-dark);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;}
+.contact-info h3{font-family:'Playfair Display',serif;font-size:28px;color:var(--white);margin-bottom:30px;}
+.contact-item{display:flex;gap:16px;margin-bottom:24px;align-items:flex-start;}
+.contact-icon{width:48px;height:48px;min-width:48px;background:rgba(200,134,10,.12);border:1px solid rgba(200,134,10,.3);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;}
+.contact-item h5{font-weight:700;color:var(--white);margin-bottom:4px;}
+.contact-item p{font-size:14px;color:var(--text-light);line-height:1.5;}
+.map-placeholder{background:rgba(255,255,255,.04);border:1px solid rgba(200,134,10,.15);border-radius:14px;height:200px;display:flex;align-items:center;justify-content:center;margin-top:24px;font-size:40px;flex-direction:column;gap:10px;cursor:pointer;transition:.3s;}
+.map-placeholder:hover{border-color:var(--gold);}
+.map-placeholder p{font-size:14px;color:var(--text-light);}
+.contact-form{background:rgba(255,255,255,.04);border:1px solid rgba(200,134,10,.15);border-radius:20px;padding:36px;}
+.contact-form h3{font-family:'Playfair Display',serif;font-size:24px;color:var(--white);margin-bottom:24px;}
+.form-group{margin-bottom:18px;}
+.form-group label{display:block;font-size:13px;color:var(--text-light);margin-bottom:8px;letter-spacing:.5px;}
+.form-group input,.form-group textarea{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(200,134,10,.2);border-radius:8px;padding:12px 16px;color:var(--white);font-family:'Lato',sans-serif;font-size:14px;transition:.2s;outline:none;}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--gold);background:rgba(200,134,10,.05);}
+.form-group textarea{height:120px;resize:vertical;}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(212,184,150,.4);}
+.form-success{display:none;background:rgba(200,134,10,.1);border:1px solid var(--gold);border-radius:8px;padding:16px;text-align:center;color:var(--gold);margin-top:16px;}
+
+/* ===== FOOTER ===== */
+footer{background:rgba(0,0,0,.6);border-top:1px solid rgba(200,134,10,.15);padding:60px 24px 24px;}
+.footer-inner{max-width:1280px;margin:auto;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;}
+.footer-brand .logo-text .name{font-size:24px;}
+.footer-desc{font-size:14px;color:var(--text-light);line-height:1.7;margin:16px 0 24px;}
+.social-links{display:flex;gap:12px;}
+.social-btn{width:40px;height:40px;background:rgba(200,134,10,.1);border:1px solid rgba(200,134,10,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:.3s;text-decoration:none;color:var(--text-light);}
+.social-btn:hover{background:var(--gold);color:var(--brown-dark);}
+.footer-col h5{font-family:'Playfair Display',serif;font-size:16px;color:var(--white);margin-bottom:20px;}
+.footer-links{list-style:none;}
+.footer-links li{margin-bottom:10px;}
+.footer-links a{color:var(--text-light);text-decoration:none;font-size:14px;transition:.2s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-bottom{border-top:1px solid rgba(200,134,10,.1);padding-top:24px;text-align:center;color:var(--text-light);font-size:13px;}
+
+/* ===== MODAL ===== */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:2000;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--brown-mid);border:1px solid rgba(200,134,10,.3);border-radius:20px;padding:40px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;position:relative;}
+.modal-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.08);border:none;color:var(--text-light);width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:18px;transition:.2s;}
+.modal-close:hover{background:var(--gold);color:var(--brown-dark);}
+.modal h2{font-family:'Playfair Display',serif;font-size:26px;color:var(--white);margin-bottom:6px;}
+.modal p.sub{color:var(--text-light);font-size:14px;margin-bottom:28px;}
+.modal .form-group label{color:var(--text-light);}
+
+/* ===== LIGHTBOX ===== */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:3000;align-items:center;justify-content:center;}
+.lightbox.open{display:flex;}
+.lightbox img{max-width:90vw;max-height:85vh;border-radius:12px;border:2px solid rgba(200,134,10,.3);}
+.lightbox-close{position:absolute;top:20px;right:20px;background:var(--gold);border:none;color:var(--brown-dark);width:40px;height:40px;border-radius:50%;font-size:20px;cursor:pointer;font-weight:700;}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+  .hero-content{grid-template-columns:1fr;padding-top:90px;}
+  .hero-card{display:none;}
+  .about-grid{grid-template-columns:1fr;}
+  .about-badge{bottom:10px;right:10px;}
+  .contact-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:600px){
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  section{padding:60px 16px;}
+  .gallery-grid{grid-template-columns:repeat(2,1fr);}
+  .footer-grid{grid-template-columns:1fr;}
+  .about-features{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#home" class="logo">
+      <div class="logo-icon">NA</div>
+      <div class="logo-text">
+        <div class="name">NA Cafe</div>
+        <div class="sub">— Narmeen Ali —</div>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#" class="btn-order" onclick="openModal('reserve')">📅 Order Now / Book Table</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home" onclick="closeMobileMenu()">Home</a>
+   <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#menu" onclick="closeMobileMenu()">Menu</a>
+  <a href="#gallery" onclick="closeMobileMenu()">Gallery</a>
+  <a href="#reviews" onclick="closeMobileMenu()">Reviews</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+  <a href="#" class="btn-order-mob" onclick="openModal('reserve');closeMobileMenu()">📅 Order Now / Book Table</a>
+</div>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-badge">☕ Welcome to NA Cafe</div>
+      <h1 class="hero-title">Fresh Coffee &<br><span>Delicious Moments</span></h1>
+      <p class="hero-desc">Relaxing environment, premium coffee, tasty snacks aur hamare cozy atmosphere — sab ek hi jagah. Aap ke liye best experience ready hai.</p>
+      <div class="hero-btns">
+        <a href="#menu" class="btn-primary">🍽️ View Menu</a>
+        <a href="#" class="btn-secondary" onclick="openModal('reserve')">📅 Reserve Table</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&q=80" alt="Coffee" class="hero-card-img"/>
+      <h3>NA Cafe</h3>
+      <p style="color:var(--text-light);font-size:14px;">— Narmeen Ali —</p>
+      <div class="hero-stats">
+        <div class="stat"><div class="num">5+</div><div class="label">Years Exp.</div></div>
+        <div class="stat"><div class="num">10K+</div><div class="label">Customers</div></div>
+        <div class="stat"><div class="num">20+</div><div class="label">Team</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED MENU -->
+<section id="featured">
+  <div class="sec-inner">
+    <div class="sec-header">
+      <div class="sec-tag">☕ Our Special</div>
+      <h2 class="sec-title">Featured Menu</h2>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card" onclick="openModal('order','Cappuccino','Rs. 450')">
+        <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&q=80" alt="Cappuccino"/>
+        <div class="menu-card-body">
+          <h4>Cappuccino</h4>
+          <p>Rich espresso with steamed milk foam.</p>
+          <span class="price-tag">Rs. 450</span>
+        </div>
+      </div>
+      <div class="menu-card" onclick="openModal('order','Latte','Rs. 450')">
+        <img src="https://images.unsplash.com/photo-1561882468-9110e03e0f78?w=400&q=80" alt="Latte"/>
+        <div class="menu-card-body">
+          <h4>Latte</h4>
+          <p>Smooth espresso with creamy milk.</p>
+          <span class="price-tag">Rs. 450</span>
+        </div>
+      </div>
+      <div class="menu-card" onclick="openModal('order','Cold Coffee','Rs. 450')">
+        <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&q=80" alt="Cold Coffee"/>
+        <div class="menu-card-body">
+          <h4>Cold Coffee</h4>
+          <p>Chilled coffee with a creamy & frosty touch.</p>
+          <span class="price-tag">Rs. 450</span>
+        </div>
+      </div>
+      <div class="menu-card" onclick="openModal('order','Brownie','Rs. 320')">
+        <img src="https://images.unsplash.com/photo-1607920592519-bab2a80efd5a?w=400&q=80" alt="Brownie"/>
+        <div class="menu-card-body">
+          <h4>Brownie</h4>
+          <p>Warm & gooey brownie with chocolate sauce.</p>
+          <span class="price-tag">Rs. 320</span>
+        </div>
+      </div>
+      <div class="menu-card" onclick="openModal('order','Sandwich','Rs. 250')">
+        <img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&q=80" alt="Sandwich"/>
+        <div class="menu-card-body">
+          <h4>Sandwich</h4>
+          <p>Grilled sandwich with fresh ingredients.</p>
+          <span class="price-tag">Rs. 250</span>
+        </div>
+      </div>
+      <div class="menu-card" onclick="openModal('order','Pasta','Rs. 600')">
+        <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=400&q=80" alt="Pasta"/>
+        <div class="menu-card-body">
+          <h4>Pasta</h4>
+          <p>Creamy pasta with rich flavors.</p>
+          <span class="price-tag">Rs. 600</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-inner">
+    <div class="about-grid">
+      <div class="about-img-wrap">
+        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=700&q=80" alt="Cafe Interior"/>
+        <div class="about-badge">
+          <div class="big">5+</div>
+          <div class="sm">Years of Trust</div>
+        </div>
+      </div>
+      <div class="about-text">
+        <div class="sec-tag">☕ About NA Cafe</div>
+        <h2 class="sec-title" style="text-align:left;margin-bottom:16px;">Ek Modern<br>& Cozy Place</h2>
+        <p style="color:var(--text-light);line-height:1.8;margin-bottom:8px;">NA Cafe ek modern aur cozy place hai jahan friends aur family quality time enjoy kar sakte hain. Hum premium coffee, tasty food aur warm environment provide karte hain.</p>
+        <div class="about-features">
+          <div class="feat-item">
+            <div class="feat-icon">🏆</div>
+            <div>
+              <h5>5+ Years of Experience</h5>
+              <p>Hamara paas 5+ years ka experience hai industry mein.</p>
+            </div>
+          </div>
+          <div class="feat-item">
+            <div class="feat-icon">🌿</div>
+            <div>
+              <h5>Quality Ingredients</h5>
+              <p>Hum sirf high quality ingredients use karte hain.</p>
+            </div>
+          </div>
+          <div class="feat-item">
+            <div class="feat-icon">😊</div>
+            <div>
+              <h5>Friendly Service</h5>
+              <p>Hamari friendly team aapki behtareen service ke liye tayaar hai.</p>
+            </div>
+          </div>
+          <div class="feat-item">
+            <div class="feat-icon">🛋️</div>
+            <div>
+              <h5>Cozy Atmosphere</h5>
+              <p>Aaram deh maahol jahan aap relax kar sakein.</p>
+            </div>
+          </div>
+        </div>
+        <div class="about-stats">
+          <div class="astat"><div class="n">5+</div><div class="l">Years Exp.</div></div>
+          <div class="astat"><div class="n">10K+</div><div class="l">Happy Customers</div></div>
+          <div class="astat"><div class="n">20+</div><div class="l">Team Members</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section id="why">
+  <div class="sec-inner">
+    <div class="sec-header">
+      <div class="sec-tag">⭐ Why</div>
+      <h2 class="sec-title">Why Choose Us</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">☕</div>
+        <h4>Fresh Coffee Beans</h4>
+        <p>Hum sirf premium quality beans use karte hain.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">⚡</div>
+        <h4>Fast Service</h4>
+        <p>Quick service so you can enjoy more.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🛋️</div>
+        <h4>Comfortable Seating</h4>
+        <p>Cozy seating for friends, families & everyone.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📶</div>
+        <h4>Free WiFi</h4>
+        <p>High-speed free WiFi to stay connected.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FULL MENU -->
+<section id="menu">
+  <div class="sec-inner">
+    <div class="sec-header">
+      <div class="sec-tag">🍽️ Our</div>
+      <h2 class="sec-title">Our Menu</h2>
+      <p class="sec-sub">Order your favorite items now!</p>
+    </div>
+    <div class="menu-tabs">
+      <button class="tab-btn active" onclick="filterMenu('all',this)">All Items</button>
+      <button class="tab-btn" onclick="filterMenu('coffee',this)">Coffee</button>
+      <button class="tab-btn" onclick="filterMenu('cold',this)">Cold Drinks</button>
+      <button class="tab-btn" onclick="filterMenu('snacks',this)">Snacks</button>
+      <button class="tab-btn" onclick="filterMenu('main',this)">Main Course</button>
+      <button class="tab-btn" onclick="filterMenu('desserts',this)">Desserts</button>
+    </div>
+    <div class="full-menu-grid" id="fullMenuGrid">
+      <div class="full-menu-item" data-cat="coffee">
+        <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=500&q=80" alt="Cappuccino"/>
+        <div class="fmi-body">
+          <h4>Cappuccino</h4>
+          <p>Rich espresso with steamed milk foam.</p>
+          <div class="fmi-footer">
+            <span class="price-tag">Rs. 450</span>
+            <button class="btn-primary" style="padding:8px 18px;font-size:13px;" onclick="openModal('order','Cappuccino','Rs. 450')">Order</button>
+          </div>
+        </div>
+      </div>
+      <div class="full-menu-item" data-cat="coffee">
+        <img src="https://images.unsplash.com/photo-1561882468-9110e03e0f78?w=500&q=80" alt="Latte"/>
+        <div class="fmi-body">
+          <h4>Latte</h4>
+          <p>Smooth espresso with creamy milk.</p>
+          <div class="fmi-footer">
+            <span class="price-tag">Rs. 450</span>
+            <button class="btn-primary" style="padding:8px 18px;font-size:13px;" onclick="openModal('order','Latte','Rs. 450')">Order</button>
+          </div>
+        </div>
+      </div>
+      <div class="full-menu-item" data-cat="cold">
+        <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500&q=80" alt="Cold Coffee"/>
+        <div class="fmi-body">
+          <h4>Cold Coffee</h4>
+          <p>Chilled coffee with a creamy & frosty touch.</p>
+          <div class="fmi-footer">
+            <span class="price-tag">Rs. 450</span>
+            <button class="btn-primary" style="padding:8px 18px;font-size:13px;" onclick="openModal('order','Cold Coffee','Rs. 450')">Order</button>
+          </div>
+        </div>
+      </div>
+      <div class="full-menu-item" data-cat="cold">
+        <img src="https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=500&q=80" alt="Iced Tea"/>
+        <div class="fmi-body">
+          <h4>Iced Tea</h4>
+          <p>Refreshing iced tea with lemon.</p>
+          <div class="fmi-footer">
+            <span class="price-tag">Rs. 280</span>
+            <button class="btn-primary" style="padding:8px 18px;font-size:13px;" onclick="openModal('order','Iced Tea','Rs. 280')">Order</button>
+          </div>
+        </div>
+      </div>
+      <div class="full-menu-item" data-cat="snacks">
+        <img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&q=80" alt="Sandwich"/>
+        <div class="fmi-body">
+          <h4>Sandwich</h4>
+          <p>Grilled sandwich with fresh ingredients.</p>
+          <div class="fmi-footer">
+            <span class="price-tag">Rs. 250</span>
+            <button class="btn-primary" style="padding:8px 18px;font-size:13px;" onclick="openModal('order','Sandwich','Rs. 250')">Order</button>
+          </div>
+        </div>
+      </div>
+      <div class="full-menu-item" data-cat="snacks">
+        <img src="https://images.unsplash.com/photo-1601924582970-9238bcb495d9?w=500&q=80" alt="Fries"/>
+        <div class="fmi-body">
+          <h4>Crispy Fries</h4>
+          <p>Golden crispy fries with dipping sauce.</p>
+          <div class="fmi-footer">
+            <span class="price-tag">Rs. 180</span>
+            <button class="btn-primary" style="padding:8px 18px;font-size:13px;" onclick="openModal('order','Crispy Fries','Rs. 180')">Order</button>
+          </div>
+        </div>
+      </div>
+      <div class="full-menu-item" data-cat="main">
+        <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=500&q=80" alt="Pasta"/>
+        <div class="fmi-body">
+          <h4>Pasta</h4>
+          <p>Creamy pasta with rich flavors.</p>
+          <div class="fmi-footer">
+            <span class="price-tag">Rs. 600</span>
+            <button class="btn-primary" style="padding:8px 18px;font-size:13px;" onclick="openModal('order','Pasta','Rs. 600')">Order</button>
+          </div>
+        </div>
+      </div>
+      <div class="full-menu-item" data-cat="main">
+        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=80" alt="Burger"/>
+        <div class="fmi-body">
+          <h4>Beef Burger</h4>
+          <p>Juicy beef patty with fresh veggies.</p>
+          <div class="fmi-footer">
+            <span class="price-tag">Rs. 550</span>
+            <button class="btn-primary" style="padding:8px 18px;font-size:13px;" onclick="openModal('order','Beef Burger','Rs. 550')">Order</button>
+          </div>
+        </div>
+      </div>
+      <div class="full-menu-item" data-cat="desserts">
+        <img src="https://images.unsplash.com/photo-1606313564573-104197cf8f91?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Brownie"/>
+        <div class="fmi-body">
+          <h4>Brownie</h4>
+          <p>Warm & gooey brownie with chocolate sauce.</p>
+          <div class="fmi-footer">
+            <span class="price-tag">Rs. 320</span>
+            <button class="btn-primary" style="padding:8px 18px;font-size:13px;" onclick="openModal('order','Brownie','Rs. 320')">Order</button>
+          </div>
+        </div>
+      </div>
+      <div class="full-menu-item" data-cat="desserts">
+        <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500&q=80" alt="Cheesecake"/>
+        <div class="fmi-body">
+          <h4>Cheesecake</h4>
+          <p>Classic NY cheesecake with berry topping.</p>
+          <div class="fmi-footer">
+            <span class="price-tag">Rs. 380</span>
+            <button class="btn-primary" style="padding:8px 18px;font-size:13px;" onclick="openModal('order','Cheesecake','Rs. 380')">Order</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:40px;">
+      <button class="btn-primary" onclick="openModal('reserve')">📅 Order Now / Book Table</button>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="sec-inner">
+    <div class="sec-header">
+      <div class="sec-tag">📷 Our</div>
+      <h2 class="sec-title">Our Gallery</h2>
+      <p class="sec-sub">Visit us and enjoy our cozy atmosphere!</p>
+    </div>
+    <div class="gallery-tabs">
+      <button class="tab-btn active" onclick="filterGallery('all',this)">All</button>
+      <button class="tab-btn" onclick="filterGallery('interior',this)">Cafe Interior</button>
+      <button class="tab-btn" onclick="filterGallery('food',this)">Food</button>
+      <button class="tab-btn" onclick="filterGallery('drinks',this)">Drinks</button>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item" data-gcat="interior" onclick="openLightbox(this.querySelector('img').src)">
+        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600&q=80" alt="Cafe"/>
+        <div class="gallery-overlay">🔍</div>
+      </div>
+      <div class="gallery-item" data-gcat="drinks" onclick="openLightbox(this.querySelector('img').src)">
+        <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600&q=80" alt="Coffee"/>
+        <div class="gallery-overlay">🔍</div>
+      </div>
+      <div class="gallery-item" data-gcat="food" onclick="openLightbox(this.querySelector('img').src)">
+        <img src="https://images.unsplash.com/photo-1607920592519-bab2a80efd5a?w=600&q=80" alt="Brownie"/>
+        <div class="gallery-overlay">🔍</div>
+      </div>
+      <div class="gallery-item" data-gcat="food" onclick="openLightbox(this.querySelector('img').src)">
+        <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=600&q=80" alt="Pasta"/>
+        <div class="gallery-overlay">🔍</div>
+      </div>
+      <div class="gallery-item" data-gcat="drinks" onclick="openLightbox(this.querySelector('img').src)">
+        <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80" alt="Cold Coffee"/>
+        <div class="gallery-overlay">🔍</div>
+      </div>
+      <div class="gallery-item" data-gcat="interior" onclick="openLightbox(this.querySelector('img').src)">
+        <img src="https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=600&q=80" alt="Cafe 2"/>
+        <div class="gallery-overlay">🔍</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:40px;">
+      <button class="btn-primary" onclick="openModal('reserve')">📅 Order Now / Book Table</button>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="sec-inner">
+    <div class="sec-header">
+      <div class="sec-tag">⭐ Customer</div>
+      <h2 class="sec-title">Customer Reviews</h2>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Best coffee in town with amazing environment. Highly recommended!"</p>
+        <div class="reviewer">
+          <img src="https://i.pravatar.cc/80?img=11" alt="Ali Khan" class="reviewer-avatar"/>
+          <div><div class="reviewer-name">Ali Khan</div><div class="reviewer-sub">Regular Customer</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Great place to hangout with friends and family. Loved the ambience!"</p>
+        <div class="reviewer">
+          <img src="https://i.pravatar.cc/80?img=20" alt="Sana Malik" class="reviewer-avatar"/>
+          <div><div class="reviewer-name">Sana Malik</div><div class="reviewer-sub">Food Blogger</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Food, coffee and service sab kuch perfect! Will visit again."</p>
+        <div class="reviewer">
+          <img src="https://i.pravatar.cc/80?img=33" alt="Usman Raza" class="reviewer-avatar"/>
+          <div><div class="reviewer-name">Usman Raza</div><div class="reviewer-sub">Verified Visitor</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="reviews-tagline">
+      <h3>We love our customers! ❤️</h3>
+      <p>Your satisfaction is our top priority.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROMO BANNER -->
+<div class="promo-banner">
+  <h2>🎉 Buy 1 Get 1 Free</h2>
+  <p>On Every Friday — Har Jumay Ke Din Special Offer!</p>
+  <button class="btn-dark" onclick="openModal('promo')">Claim Offer</button>
+</div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sec-inner">
+    <div class="sec-header">
+      <div class="sec-tag">📍 Get In</div>
+      <h2 class="sec-title">Contact Us</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Hamse Rabta Karein</h3>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <h5>Address</h5>
+            <p>123 Cafe Street, Coffee City,<br>Lahore, Pakistan</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <h5>Phone</h5>
+            <p>+92 300 1234567</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <h5>Email</h5>
+            <p>info@nacafe.com</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">⏰</div>
+          <div>
+            <h5>Opening Hours</h5>
+            <p>Mon – Sun: 10:00 AM – 11:00 PM</p>
+          </div>
+        </div>
+      
+      </div>
+      <div class="contact-form">
+        <h3>Send Message</h3>
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="cname" placeholder="your name here"/>
+        </div>
+        <div class="form-group">
+          <label>Your Email</label>
+          <input type="email" id="cemail" placeholder="Email address"/>
+        </div>
+        <div class="form-group">
+          <label>Your Message</label>
+          <textarea id="cmsg" placeholder="message here ..."></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%;justify-content:center;" onclick="sendMessage()">Send Message ➤</button>
+        <div class="form-success" id="contactSuccess">✅ Message send ho gaya! Hum jald rabta karein ge.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#home" class="logo" style="margin-bottom:0;">
+          <div class="logo-icon">NA</div>
+          <div class="logo-text">
+            <div class="name">NA Cafe</div>
+            <div class="sub">— Narmeen Ali —</div>
+          </div>
+        </a>
+        <p class="footer-desc">NA Cafe ek modern aur cozy place hai jahan friends aur family quality time enjoy kar sakte hain. Hum premium coffee, tasty food aur memorable moments provide karte hain.</p>
+    
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul class="footer-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Gallery</h5>
+        <ul class="footer-links">
+          <li><a href="#gallery">Cafe Interior</a></li>
+          <li><a href="#gallery">Food Photos</a></li>
+          <li><a href="#gallery">Drinks</a></li>
+          <li><a href="#gallery">Events</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <ul class="footer-links">
+          <li><a href="#">📍 Lahore, Pakistan</a></li>
+          <li><a href="tel:+923001234567">📞 +92 300 1234567</a></li>
+          <li><a href="mailto:info@nacafe.com">✉️ info@nacafe.com</a></li>
+          <li><a href="#">⏰ 10AM – 11PM Daily</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 NA Cafe — All Rights Reserved | Made with ☕ for Narmeen Ali</p>
+    </div>
+  </div>
+</footer>
+
+<!-- BOOKING/ORDER MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="mainModal">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="Gallery"/>
+</div>
+
+<script>
+// ===== MOBILE MENU =====
+function toggleMobileMenu(){
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeMobileMenu(){
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+// ===== SCROLL NAV =====
+window.addEventListener('scroll',()=>{
+  const nav=document.getElementById('navbar');
+  nav.style.boxShadow=window.scrollY>50?'0 4px 20px rgba(0,0,0,.5)':'none';
+});
+
+// ===== MENU FILTER =====
+function filterMenu(cat,btn){
+  document.querySelectorAll('#fullMenuGrid .full-menu-item').forEach(item=>{
+    item.style.display=(cat==='all'||item.dataset.cat===cat)?'flex':'none';
+    if(cat==='all'||item.dataset.cat===cat) item.style.flexDirection='column';
+  });
+  document.querySelectorAll('.menu-tabs .tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ===== GALLERY FILTER =====
+function filterGallery(cat,btn){
+  document.querySelectorAll('.gallery-item').forEach(item=>{
+    item.style.display=(cat==='all'||item.dataset.gcat===cat)?'block':'none';
+  });
+  document.querySelectorAll('.gallery-tabs .tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ===== MODAL =====
+function openModal(type,item='',price=''){
+  const overlay=document.getElementById('modalOverlay');
+  const content=document.getElementById('modalContent');
+  if(type==='reserve'){
+    content.innerHTML=`
+      <h2>📅 Book a Table</h2>
+      <p class="sub">Apni jagah reserve karein — NA Cafe mein aapka intezaar hai!</p>
+      <div class="form-group"><label>Aapka Naam</label><input type="text" id="rname" placeholder="Full name"/></div>
+      <div class="form-group"><label>Phone Number</label><input type="tel" id="rphone" placeholder="+92 300 0000000"/></div>
+      <div class="form-group"><label>Date</label><input type="date" id="rdate"/></div>
+      <div class="form-group"><label>Time</label><input type="time" id="rtime"/></div>
+      <div class="form-group"><label>Guests</label><input type="number" id="rguests" min="1" max="20" placeholder="Number of guests"/></div>
+      <button class="btn-primary" style="width:100%;justify-content:center;margin-top:8px;" onclick="submitReservation()">Confirm Booking ✓</button>
+      <div class="form-success" id="resSuccess">🎉 Table book ho gaya! Hum aapko confirm karein ge.</div>
+    `;
+  } else if(type==='order'){
+    content.innerHTML=`
+      <h2>🛒 Order: ${item}</h2>
+      <p class="sub">Price: <strong style="color:var(--gold)">${price}</strong></p>
+      <div class="form-group"><label>Aapka Naam</label><input type="text" id="oname" placeholder="Full name"/></div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="ophone" placeholder="+92 300 0000000"/></div>
+      <div class="form-group"><label>Quantity</label><input type="number" id="oqty" min="1" value="1"/></div>
+      <div class="form-group"><label>Special Instructions (optional)</label><textarea id="onote" placeholder="Koi special request..."></textarea></div>
+      <button class="btn-primary" style="width:100%;justify-content:center;margin-top:8px;" onclick="submitOrder('${item}','${price}')">Place Order ✓</button>
+      <div class="form-success" id="orderSuccess"></div>
+    `;
+  } else if(type==='promo'){
+    content.innerHTML=`
+      <div style="text-align:center;">
+        <div style="font-size:60px;margin-bottom:16px;">🎉</div>
+        <h2>Buy 1 Get 1 Free!</h2>
+        <p class="sub" style="margin-bottom:24px;">Har Jumay ka special offer. Koi bhi item order karein aur doosra free paayen!</p>
+        <div style="background:rgba(200,134,10,.1);border:1px solid var(--gold);border-radius:12px;padding:20px;margin-bottom:24px;">
+          <div style="font-size:13px;color:var(--text-light);letter-spacing:2px;margin-bottom:8px;">YOUR PROMO CODE</div>
+          <div style="font-family:'Playfair Display',serif;font-size:32px;color:var(--gold);font-weight:700;letter-spacing:4px;">NACAFE50</div>
+        </div>
+        <p style="color:var(--text-light);font-size:13px;margin-bottom:24px;">Valid every Friday. Dine-in only. Limited time offer.</p>
+        <button class="btn-primary" style="justify-content:center;" onclick="openModal('reserve')">Book Table Now →</button>
+      </div>
+    `;
+  }
+  overlay.classList.add('open');
+}
+function closeModal(e){
+  if(e.target===document.getElementById('modalOverlay')) closeModalDirect();
+}
+function closeModalDirect(){
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+function submitReservation(){
+  const name=document.getElementById('rname').value;
+  const phone=document.getElementById('rphone').value;
+  if(!name||!phone){alert('Please fill naam aur phone number!');return;}
+  document.getElementById('resSuccess').style.display='block';
+}
+function submitOrder(item,price){
+  const name=document.getElementById('oname').value;
+  const qty=document.getElementById('oqty').value;
+  if(!name){alert('Please apna naam likhein!');return;}
+  const s=document.getElementById('orderSuccess');
+  s.style.display='block';
+  s.textContent=`✅ Order place ho gaya! ${qty}x ${item} (${price} each) — Hum jald tayaar karein ge!`;
+}
+
+// ===== CONTACT FORM =====
+function sendMessage(){
+  const name=document.getElementById('cname').value;
+  const email=document.getElementById('cemail').value;
+  const msg=document.getElementById('cmsg').value;
+  if(!name||!email||!msg){alert('Sab fields fill karein!');return;}
+  document.getElementById('contactSuccess').style.display='block';
+  document.getElementById('cname').value='';
+  document.getElementById('cemail').value='';
+  document.getElementById('cmsg').value='';
+}
+
+// ===== LIGHTBOX =====
+function openLightbox(src){
+  document.getElementById('lightboxImg').src=src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+// ===== SMOOTH ACTIVE NAV =====
+const sections=document.querySelectorAll('section[id]');
+window.addEventListener('scroll',()=>{
+  let current='';
+  sections.forEach(s=>{
+    if(window.scrollY>=s.offsetTop-100) current=s.getAttribute('id');
+  });
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.style.color=a.getAttribute('href')==='#'+current?'var(--gold-light)':'';
+  });
+});
+</script>
+</body>
+</html>
